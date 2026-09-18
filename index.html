@@ -3,47 +3,279 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ma musique</title>
+  <title>Une surprise pour toi psk jtem💌</title>
+  <meta name="theme-color" content="#2a1030">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Cormorant+Garamond:ital,wght@0,500;1,500;1,600&display=swap" rel="stylesheet">
+
   <style>
+    :root {
+      --nuit: #2a1030;
+      --nuit-clair: #43194a;
+      --papier: #fbe9ec;
+      --encre: #3a1a3f;
+      --or: #e8b96a;
+      --accent: #e0577b; /* change selon la musique (voir plus bas) */
+      --script: "Caveat", "Segoe Print", "Bradley Hand", cursive;
+      --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    }
+
+    * { box-sizing: border-box; }
+
     body {
       margin: 0;
       min-height: 100vh;
+      min-height: 100dvh;
       display: grid;
       place-items: center;
-      background: #121212;
-      font-family: sans-serif;
-      color: white;
+      padding: 24px 16px;
+      background:
+        radial-gradient(ellipse at 50% 0%, var(--nuit-clair) 0%, transparent 65%),
+        var(--nuit);
+      color: var(--papier);
+      font-family: var(--serif);
     }
-    .box { width: min(92vw, 500px); }
-    h1 { text-align: center; font-size: 1.3rem; }
-    iframe { border: 0; border-radius: 12px; }
+
+    [hidden] { display: none !important; }
+
+    /* ---------- ÉCRAN 1 : le sceau ---------- */
+    #accueil {
+      text-align: center;
+      display: grid;
+      justify-items: center;
+      gap: 18px;
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    #accueil.ferme { opacity: 0; transform: scale(.92); pointer-events: none; }
+
+    #accueil .intro {
+      font-family: var(--script);
+      font-size: clamp(1.9rem, 7vw, 2.6rem);
+      margin: 0;
+      line-height: 1.1;
+    }
+    #accueil .aide {
+      margin: 0;
+      font-style: italic;
+      font-size: 1.15rem;
+      opacity: .75;
+    }
+
+    .sceau {
+      width: 132px;
+      height: 132px;
+      border: 0;
+      border-radius: 50%;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      font-size: 3.2rem;
+      color: #fff;
+      background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--accent) 70%, #fff) 0%, var(--accent) 45%, color-mix(in srgb, var(--accent) 60%, #000) 100%);
+      box-shadow: 0 10px 30px rgba(0,0,0,.45), inset 0 -6px 12px rgba(0,0,0,.25), inset 0 4px 8px rgba(255,255,255,.25);
+      animation: battement 1.8s ease-in-out infinite;
+      transition: transform .35s ease, filter .35s ease;
+    }
+    .sceau:hover { filter: brightness(1.1); }
+    .sceau:focus-visible { outline: 3px solid var(--or); outline-offset: 6px; }
+    .sceau.casse { animation: none; transform: scale(1.25) rotate(8deg); filter: brightness(1.3); }
+
+    @keyframes battement {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+
+    /* ---------- ÉCRAN 2 : la lettre ---------- */
+    #contenu {
+      width: min(94vw, 480px);
+      display: grid;
+      gap: 26px;
+      animation: montee .9s cubic-bezier(.2, .8, .2, 1) both;
+    }
+    @keyframes montee {
+      from { opacity: 0; transform: translateY(40px) rotate(1.5deg); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    .lettre {
+      background: var(--papier);
+      color: var(--encre);
+      border-radius: 6px;
+      padding: 34px 28px 28px;
+      transform: rotate(-.8deg);
+      box-shadow: 0 18px 40px rgba(0,0,0,.4);
+      border-top: 6px solid var(--accent);
+      position: relative;
+    }
+    .lettre .pour {
+      font-family: var(--script);
+      font-size: 1.7rem;
+      color: var(--accent);
+      margin: 0 0 4px;
+    }
+    .lettre h1 {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 600;
+      font-size: clamp(2rem, 8vw, 2.7rem);
+      line-height: 1.05;
+      margin: 0 0 18px;
+    }
+    .lettre .message {
+      font-family: var(--script);
+      font-size: 1.55rem;
+      line-height: 1.35;
+      margin: 0;
+      white-space: pre-line;
+    }
+    .lettre .signature {
+      font-family: var(--script);
+      font-weight: 700;
+      font-size: 1.8rem;
+      text-align: right;
+      margin: 20px 0 0;
+      color: var(--accent);
+    }
+    .lettre .date {
+      margin: 6px 0 0;
+      text-align: right;
+      font-style: italic;
+      font-size: 1.05rem;
+      opacity: .6;
+    }
+
+    #player iframe {
+      border: 0;
+      border-radius: 14px;
+      width: 100%;
+      display: block;
+    }
+    #player .erreur {
+      text-align: center;
+      font-style: italic;
+      opacity: .8;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sceau, #contenu { animation: none; }
+      #accueil { transition: none; }
+    }
   </style>
 </head>
+
 <body>
-  <div class="box">
-    <h1>🎵 Écoute ça</h1>
+
+  <!-- Écran 1 : le sceau à toucher -->
+  <main id="accueil">
+    <p class="intro" id="intro"></p>
+    <button class="sceau" id="sceau" aria-label="Ouvrir la surprise">❤</button>
+    <p class="aide">APPUIIIIIE</p>
+  </main>
+
+  <!-- Écran 2 : la lettre + la musique -->
+  <section id="contenu" hidden>
+    <article class="lettre">
+      <p class="pour" id="pour"></p>
+      <h1 id="titre"></h1>
+      <p class="message" id="message"></p>
+      <p class="signature" id="signature"></p>
+      <p class="date" id="date"></p>
+    </article>
     <div id="player"></div>
-  </div>
+  </section>
 
-  <script>
-    // Ajoute ici une ligne par musique de ton carnet
-    const musiques = {
-      "1": { type: "album", id: "3cSquHv4Y3eR0gF3zEzHcg" },
-      // "2": { type: "track", id: "XXXXXXXX" },
-      // "3": { type: "playlist", id: "XXXXXXXX" },
-    };
+<script>
+/* =====================================================
+   ✏️  À PERSONNALISER
+   ===================================================== */
 
-    const params = new URLSearchParams(location.search);
-    const m = musiques[params.get("m") || "1"];
+// Son prénom (ou petit surnom) et ta signature
+const PRENOM    = "ma Coco";
+const SIGNATURE = "Ton amoureux qui tem";
 
-    if (m) {
-      document.getElementById("player").innerHTML =
-        `<iframe src="https://open.spotify.com/embed/${m.type}/${m.id}?utm_source=generator"
-          width="100%" height="450" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy"></iframe>`;
-    } else {
-      document.getElementById("player").textContent = "Musique introuvable 😕";
-    }
-  </script>
+// Une entrée par QR code de ton carnet.
+//   type    : "track" (un titre), "album" ou "playlist"
+//   id      : la fin du lien Spotify, avant le "?"
+//   titre   : le grand titre de la page
+//   message : ton petit mot (utilise \n pour aller à la ligne)
+//   date    : facultatif (un souvenir, une date), "" pour ne rien afficher
+//   couleur : facultatif, la couleur du cœur et des accents
+const musiques = {
+
+  "1": {
+    type: "album",
+    id: "3cSquHv4Y3eR0gF3zEzHcg",
+    titre: "Notre première chanson",
+    message: "Écoute-la en pensant à moi.\nChaque note me rappelle un moment avec toi.",
+    date: "",
+    couleur: "#e0577b"
+  },
+
+  "2": {
+    type: "track",
+    id: "6hYchz78cG6YOE8yHqHhoa", // Run with Me – Jonny Southard
+    titre: "Run with Me",
+    message: "Cours avec moi, où tu veux, quand tu veux.\nJe te suivrai n'importe où.\n\nJe t'aime.",
+    date: "",
+    couleur: "#e8875a"
+  },
+
+  // "3": { type: "track", id: "XXXXXXXX", titre: "…", message: "…", date: "", couleur: "#b25fd6" },
+
+};
+
+/* =====================================================
+   ⚙️  Le reste fonctionne tout seul, pas besoin d'y toucher
+   ===================================================== */
+
+const params = new URLSearchParams(location.search);
+const cle = params.get("m") || "1";
+const m = musiques[cle];
+
+const $ = (id) => document.getElementById(id);
+
+if (m && m.couleur) {
+  document.documentElement.style.setProperty("--accent", m.couleur);
+}
+
+$("intro").textContent = "Une surprise pour toi hehe :)"
+
+$("sceau").addEventListener("click", () => {
+  $("sceau").classList.add("casse");
+  $("accueil").classList.add("ferme");
+
+  setTimeout(() => {
+    $("accueil").hidden = true;
+    afficherLettre();
+  }, 500);
+});
+
+function afficherLettre() {
+  if (!m) {
+    $("player").innerHTML = '<p class="erreur">Cette page n\'existe pas encore 😕</p>';
+    $("contenu").hidden = false;
+    document.querySelector(".lettre").hidden = true;
+    return;
+  }
+
+  $("pour").textContent = "Pour " + PRENOM + ",";
+  $("titre").textContent = m.titre || "";
+  $("message").textContent = m.message || "";
+  $("signature").textContent = SIGNATURE;
+  $("date").textContent = m.date || "";
+  if (!m.date) $("date").hidden = true;
+
+  // Un titre seul est plus petit qu'un album ou une playlist
+  const hauteur = m.type === "track" ? 152 : 450;
+
+  $("player").innerHTML =
+    '<iframe src="https://open.spotify.com/embed/' + m.type + '/' + m.id + '?utm_source=generator" ' +
+    'height="' + hauteur + '" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" ' +
+    'loading="lazy" title="Lecteur Spotify"></iframe>';
+
+  $("contenu").hidden = false;
+}
+</script>
 </body>
 </html>
