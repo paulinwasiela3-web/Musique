@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ma musique</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #121212;
+      font-family: sans-serif;
+      color: white;
+    }
+    .box { width: min(92vw, 500px); }
+    h1 { text-align: center; font-size: 1.3rem; }
+    iframe { border: 0; border-radius: 12px; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>🎵 Écoute ça</h1>
+    <div id="player"></div>
+  </div>
+
+  <script>
+    // Ajoute ici une ligne par musique de ton carnet
+    const musiques = {
+      "1": { type: "album", id: "3cSquHv4Y3eR0gF3zEzHcg" },
+      // "2": { type: "track", id: "XXXXXXXX" },
+      // "3": { type: "playlist", id: "XXXXXXXX" },
+    };
+
+    const params = new URLSearchParams(location.search);
+    const m = musiques[params.get("m") || "1"];
+
+    if (m) {
+      document.getElementById("player").innerHTML =
+        `<iframe src="https://open.spotify.com/embed/${m.type}/${m.id}?utm_source=generator"
+          width="100%" height="450" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"></iframe>`;
+    } else {
+      document.getElementById("player").textContent = "Musique introuvable 😕";
+    }
+  </script>
+</body>
+</html>
